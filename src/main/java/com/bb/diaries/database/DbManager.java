@@ -14,10 +14,9 @@ public class DbManager {
 	private static Logger LOGGER = Logger.getLogger(DbManager.class);
 	
 	private static DataSource dataSource;
-	private static Properties jdbcProperties;
+	private static Properties jdbcProperties = new Properties();;
     
     static{
-    	jdbcProperties = new Properties();
     	try {
 			jdbcProperties.load(DbManager.class.getResourceAsStream("jdbc.properteis"));
 		} catch (IOException e) {

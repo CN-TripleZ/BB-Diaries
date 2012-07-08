@@ -20,7 +20,7 @@ public class PhotoDao {
 		return DAO;
 	}
 	
-	public Photo get(String id) {
+	public Photo get(int id) {
 		String sql = "select * from " +getTableName() + " where id = ?";
 		Object params[] = { id };
 		QueryRunner run = DbManager.getQueryRunner();
@@ -33,6 +33,21 @@ public class PhotoDao {
 		}
 		return photo;
 	}
+	
+	public List<Photo> findByUserId(int userId) {
+		String sql = "select * from " +getTableName() + " where userId = ?";
+		Object params[] = { userId };
+		QueryRunner run = DbManager.getQueryRunner();
+		ResultSetHandler<List<Photo>> handler = new BeanListHandler<Photo>(Photo.class);
+		List<Photo> list = new ArrayList<Photo>();
+		try {
+			list = run.query(sql, handler, params);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+	
 	public boolean save(Photo photo) {
 		String sql = "insert into " + getTableName() + " (id,uploadTime,userId,description,path) values (?,?,?,?,?)";
 		Object params[] = { photo.getId(), photo.getUploadTime(), photo.getUserId(), photo.getDescription(), photo.getPath()};
@@ -65,7 +80,7 @@ public class PhotoDao {
 		return flag;
 	}
 
-	public boolean delete(String id) {
+	public boolean delete(int id) {
 		String sql = "delete from " + getTableName() + " where id=?";
 		Object params[] = { id };
 		QueryRunner run = DbManager.getQueryRunner();

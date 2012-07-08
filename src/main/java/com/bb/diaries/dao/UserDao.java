@@ -20,7 +20,7 @@ public class UserDao {
 		return DAO;
 	}
 	
-	public User get(String id) {
+	public User get(int id) {
 		String sql = "select * from " +getTableName() + " where id = ?";
 		Object params[] = { id };
 		QueryRunner run = DbManager.getQueryRunner();
@@ -33,6 +33,21 @@ public class UserDao {
 		}
 		return user;
 	}
+	
+	public User get(String name) {
+		String sql = "select * from " +getTableName() + " where name = ?";
+		Object params[] = { name };
+		QueryRunner run = DbManager.getQueryRunner();
+		
+		User user = new User();
+		try {
+			user = run.query(sql,new BeanHandler(User.class), params);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return user;
+	}
+	
 	public boolean save(User user) {
 		String sql = "insert into " + getTableName() + " (id,name,password,email) values (?,?,?,?)";
 		Object params[] = { user.getId(), user.getName(), user.getPassword(), user.getEmail() };
@@ -65,7 +80,7 @@ public class UserDao {
 		return flag;
 	}
 
-	public boolean delete(String id) {
+	public boolean delete(int id) {
 		String sql = "delete from " + getTableName() + " where id=?";
 		Object params[] = { id };
 		QueryRunner run = DbManager.getQueryRunner();

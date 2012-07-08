@@ -8,11 +8,14 @@ import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.ResultSetHandler;
 import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
+import org.apache.log4j.Logger;
 
 import com.bb.diaries.database.DbManager;
 import com.bb.diaries.model.User;
 
 public class UserDao {
+	
+	private static final Logger LOGGER = Logger.getLogger(UserDao.class);
 	
 	private final static UserDao DAO = new UserDao();
 
@@ -30,6 +33,7 @@ public class UserDao {
 			user = run.query(sql,new BeanHandler(User.class), params);
 		} catch (SQLException e) {
 			e.printStackTrace();
+			LOGGER.error("查询用户异常.[id=" + id + "]");
 		}
 		return user;
 	}
@@ -44,6 +48,7 @@ public class UserDao {
 			user = run.query(sql,new BeanHandler(User.class), params);
 		} catch (SQLException e) {
 			e.printStackTrace();
+			LOGGER.error("查询用户异常.[name=" + name + "]");
 		}
 		return user;
 	}
@@ -60,6 +65,7 @@ public class UserDao {
 		} catch (SQLException e) {
 			e.printStackTrace();
 			flag = false;
+			LOGGER.error("保存用户异常.");
 		}
 		return flag;
 	}
@@ -76,6 +82,7 @@ public class UserDao {
 		} catch (SQLException e) {
 			e.printStackTrace();
 			flag = false;
+			LOGGER.error("更新用户异常.");
 		}
 		return flag;
 	}
@@ -91,6 +98,7 @@ public class UserDao {
 		} catch (SQLException e) {
 			e.printStackTrace();
 			flag = false;
+			LOGGER.error("删除用户异常.");
 		}
 		return flag;
 	}
@@ -104,6 +112,7 @@ public class UserDao {
 			list = run.query(sql, handler);
 		} catch (SQLException e) {
 			e.printStackTrace();
+			LOGGER.error("查找所有制用户异常.");
 		}
 		return list;
 	}

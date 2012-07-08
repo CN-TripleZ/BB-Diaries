@@ -8,11 +8,14 @@ import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.ResultSetHandler;
 import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
+import org.apache.log4j.Logger;
 
 import com.bb.diaries.database.DbManager;
 import com.bb.diaries.model.Photo;
 
 public class PhotoDao {
+	
+	private static final Logger LOGGER = Logger.getLogger(PhotoDao.class);
 	
 	private final static PhotoDao DAO = new PhotoDao();
 
@@ -30,6 +33,7 @@ public class PhotoDao {
 			photo = run.query(sql,new BeanHandler(Photo.class), params);
 		} catch (SQLException e) {
 			e.printStackTrace();
+			LOGGER.error("查询图片异常.[id=" + id + "]");
 		}
 		return photo;
 	}
@@ -44,6 +48,7 @@ public class PhotoDao {
 			list = run.query(sql, handler, params);
 		} catch (SQLException e) {
 			e.printStackTrace();
+			LOGGER.error("查询用户图片异常.[userId=" + userId + "]");
 		}
 		return list;
 	}
@@ -60,6 +65,7 @@ public class PhotoDao {
 		} catch (SQLException e) {
 			e.printStackTrace();
 			flag = false;
+			LOGGER.error("保存图片异常.");
 		}
 		return flag;
 	}
@@ -76,6 +82,7 @@ public class PhotoDao {
 		} catch (SQLException e) {
 			e.printStackTrace();
 			flag = false;
+			LOGGER.error("更新图片异常.");
 		}
 		return flag;
 	}
@@ -91,6 +98,7 @@ public class PhotoDao {
 		} catch (SQLException e) {
 			e.printStackTrace();
 			flag = false;
+			LOGGER.error("删除图片异常.");
 		}
 		return flag;
 	}
@@ -104,6 +112,7 @@ public class PhotoDao {
 			list = run.query(sql, handler);
 		} catch (SQLException e) {
 			e.printStackTrace();
+			LOGGER.error("查询所有有图片异常.");
 		}
 		return list;
 	}
